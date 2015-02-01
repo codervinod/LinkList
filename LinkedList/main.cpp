@@ -35,22 +35,35 @@ public:
     }
     
     Node *GetHead() { return m_head;}
-    void AddNode(Node *node){
+    void AddNode(Node *node)
+    {
         if(!m_head){
             m_head = node;
             return;
         }
         
-        node->addNext(m_head);
-        m_head = node;
+        Node *itr = m_head;
+        
+        while(itr->next())
+            itr = itr->next();
+        
+        itr->addNext(node);
     }
     
-    void Traverse(){
+    void Traverse()
+    {
         Node *node = m_head;
         while(node){
             std::cout<<node->GetData()<<"\t";
             node = node->next();
         }
+    }
+    
+    void ReverseTraverse(Node *root)
+    {
+        if(root->next())
+            ReverseTraverse(root->next());
+        std::cout<<root->GetData()<<"\t";
     }
     
 private:
@@ -66,8 +79,11 @@ int main(int argc, const char * argv[]) {
     list->AddNode(new Node(2));
     list->AddNode(new Node(9));
     
+    std::cout << "\nTraversal\n";
     list->Traverse();
+    std::cout << "\nReverse Traversal\n";
+    list->ReverseTraverse(list->GetHead());
+    std::cout<<std::endl;
     delete list;
-    std::cout << "\nTraversal done\n";
     return 0;
 }
